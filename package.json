@@ -1,13 +1,25 @@
 {
-  "name": "myCart",
+  "name": "mycart",
+  "author": "Chris Leathley <chris@leathley.ninja>",
   "version": "0.0.1",
+  "license": "ISC",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "start:clear": "react-native start --reset-cache",
+    "test": "jest",
+    "clean:cache": "yarn cache clean",
+    "clean:android": "rm -rf android/build && (cd android && ./gradlew clean)",
+    "clean:ios": "rm -rf ios/build ios/Pods ios/Podfile.lock && rm -rf ~/Library/Developer/Xcode/DerivedData",
+    "clean:all": "watchman watch-del-all && yarn clean:cache && yarn clean:android && yarn clean:ios && rm -rf yarn.lock node_modules && yarn install && yarn pod:install",
+    "pod:install": "(cd ios && bundle install && bundle exec pod install)",
+    "upgrade:modules": "yarn upgrade && yarn pod:install",
+    "upgrade:check": "yarn outdated",
+    "upgrade:react-native": "react-native upgrade",
+    "upgrade:all": "yarn upgrade:react-native && yarn upgrade:modules"
   },
   "dependencies": {
     "react": "18.2.0",
