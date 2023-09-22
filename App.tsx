@@ -1,118 +1,79 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {ReactElement} from 'react';
+import {StatusBar, useColorScheme} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationLightTheme,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
+import merge from 'deepmerge';
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  MD3DarkTheme as MaterialDarkTheme,
+  MD3LightTheme as MaterialLightTheme,
+  Provider as PaperProvider,
+  adaptNavigationTheme,
+} from 'react-native-paper';
+import ENV from './.env';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import './src/i18n/i18n';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+// import the screens
+import SpashScreen from './src/screens/Splash';
+import HomeScreen from './src/screens/Home';
+import {RootNavigationStackParamList} from './src/@types/navigation';
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+// adapt the navigation themes from the paper themes
+const {LightTheme, DarkTheme} = adaptNavigationTheme({
+  reactNavigationLight: NavigationLightTheme,
+  reactNavigationDark: NavigationDarkTheme,
 });
+// and merge everything together
+const availableThemes = {
+  combinedLightTheme: merge(MaterialLightTheme, LightTheme),
+  combinedDarkTheme: merge(MaterialDarkTheme, DarkTheme),
+};
+
+const Stack = createNativeStackNavigator();
+
+function App(): ReactElement {
+  const navigationRef =
+    useNavigationContainerRef<RootNavigationStackParamList>();
+
+  // get the system colour scheme and use it as the default (if the user has
+  // not overridden it within the app)
+  const colorScheme = useColorScheme() ?? 'light';
+  const [isThemeDark, setIsThemeDark] = React.useState(
+    colorScheme === 'dark' ? true : false,
+  );
+
+  let currentTheme = isThemeDark
+    ? availableThemes.combinedDarkTheme
+    : availableThemes.combinedLightTheme;
+
+  return (
+    <PaperProvider theme={currentTheme}>
+      <StatusBar
+        backgroundColor={currentTheme.colors.card}
+        barStyle={isThemeDark ? 'light-content' : 'dark-content'}
+      />
+      <SafeAreaProvider>
+        <NavigationContainer ref={navigationRef} theme={currentTheme}>
+          <Stack.Navigator initialRouteName="Splash">
+            <Stack.Screen
+              name="Splash"
+              component={SpashScreen}
+              options={{
+                headerShown: false,
+                animation: 'none',
+              }}
+            />
+            <Stack.Screen name="Home" component={HomeScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </PaperProvider>
+  );
+}
 
 export default App;
