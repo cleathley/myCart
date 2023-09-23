@@ -1,27 +1,31 @@
-import React, {ReactElement} from 'react';
-import {StatusBar, useColorScheme} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {
   NavigationContainer,
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationLightTheme,
   useNavigationContainerRef,
 } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import merge from 'deepmerge';
+import React, {ReactElement} from 'react';
+import {StatusBar, useColorScheme} from 'react-native';
 import {
+  Badge,
+  IconButton,
   MD3DarkTheme as MaterialDarkTheme,
   MD3LightTheme as MaterialLightTheme,
   Provider as PaperProvider,
   adaptNavigationTheme,
 } from 'react-native-paper';
-import ENV from './.env';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {RootNavigationStackParamList} from './src/@types/navigation';
 import './src/i18n/i18n';
+import log from './src/support/logger';
 
 // import the screens
-import SpashScreen from './src/screens/Splash';
 import HomeScreen from './src/screens/Home';
-import {RootNavigationStackParamList} from './src/@types/navigation';
+import ProductScreen from './src/screens/Product';
+import SpashScreen from './src/screens/Splash';
+import {useTranslation} from 'react-i18next';
 
 // adapt the navigation themes from the paper themes
 const {LightTheme, DarkTheme} = adaptNavigationTheme({
@@ -37,6 +41,7 @@ const availableThemes = {
 const Stack = createNativeStackNavigator();
 
 function App(): ReactElement {
+  const {t} = useTranslation();
   const navigationRef =
     useNavigationContainerRef<RootNavigationStackParamList>();
 
@@ -59,7 +64,21 @@ function App(): ReactElement {
       />
       <SafeAreaProvider>
         <NavigationContainer ref={navigationRef} theme={currentTheme}>
-          <Stack.Navigator initialRouteName="Splash">
+          <Stack.Navigator
+            initialRouteName="Splash"
+            screenOptions={{
+              headerRight: () => (
+                <>
+                  <IconButton
+                    icon="cart"
+                    onPress={() => log.warn('@todo: goto cart screen')}
+                  />
+                  <Badge style={{position: 'absolute', top: 4, right: -4}}>
+                    3
+                  </Badge>
+                </>
+              ),
+            }}>
             <Stack.Screen
               name="Splash"
               component={SpashScreen}
@@ -68,7 +87,20 @@ function App(): ReactElement {
                 animation: 'none',
               }}
             />
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                title: t('home.screenTitle'),
+              }}
+            />
+            <Stack.Screen
+              name="Product"
+              component={ProductScreen}
+              options={{
+                title: t('product.screenTitle'),
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

@@ -1,7 +1,7 @@
 export const strings = {
   // App specific
   app: {
-    name: 'myCart',
+    name: 'Ninja Lottery',
     loading: 'Loading...',
   },
 
@@ -11,6 +11,14 @@ export const strings = {
   },
 
   home: {
-    title: 'hello',
+    screenTitle: 'Ninja Lottery',
+    title: 'Play your favourate game',
+    cardPrice: 'Starting from {{price}} per game.',
+    runTest: 'Debug',
+  },
+
+  product: {
+    screenTitle: '',
+    title: 'product detail',
   },
 };
