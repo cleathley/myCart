@@ -1,23 +1,17 @@
-import React, {ReactElement, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {
-  Button,
-  Card,
-  IconButton,
-  Text,
-  TouchableRipple,
-} from 'react-native-paper';
-import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import React, {ReactElement, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Dimensions, FlatList, Image, StyleSheet} from 'react-native';
+import {Card, IconButton, Text} from 'react-native-paper';
+import Carousel from 'react-native-reanimated-carousel';
 import {
   ProductScreenRouteProp,
   RootNavigationStackParamList,
 } from '../@types/navigation';
-import {Dimensions, FlatList, Image, StyleSheet, View} from 'react-native';
-import formatCurrency from '../support/formatCurrency';
-import Carousel from 'react-native-reanimated-carousel';
 import {ProductVariation} from '../@types/product';
+import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
+import formatCurrency from '../support/formatCurrency';
 import log from '../support/logger';
 
 export default function ProductScreen(): ReactElement {
