@@ -1,25 +1,19 @@
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Button, Card, Text} from 'react-native-paper';
-import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
-import log from '../support/logger';
-import ENV from '../../.env';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Card, Text} from 'react-native-paper';
 import {RootNavigationStackParamList} from '../@types/navigation';
-import products from '../constants/products';
 import {Product} from '../@types/product';
+import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
+import products from '../constants/products';
 import formatCurrency from '../support/formatCurrency';
 
 export default function HomeScreen(): ReactElement {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootNavigationStackParamList>>();
-
-  const onPressTest = () => {
-    navigation.navigate('Product', {product: null});
-  };
 
   const Item = ({data}: {data: Product}) => (
     <Card

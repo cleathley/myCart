@@ -3,7 +3,7 @@ import {Products} from '../@types/product';
 const products: Products = [
   {
     id: '1',
-    name: 'Ninja Throwing Star',
+    name: 'Shuriken',
     description:
       'The shuriken, or ninja star, of the popular imagination. “Shuriken” (手裏剣) literally means “sword that\'s hidden in hand."',
     price: 7.25,
@@ -36,7 +36,7 @@ const products: Products = [
     name: 'Ninjatō',
     description:
       'Typically depicted as being a short sword, often portrayed as having a straight blade (similar to that of a shikomizue) with a square guard.',
-    price: 0.0,
+    price: 4.55,
     heroImage:
       'https://placehold.co/640x400/green/yellow/png?text=Ninjat%C5%8D',
     images: [

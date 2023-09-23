@@ -98,7 +98,7 @@ function App(): ReactElement {
               name="Product"
               component={ProductScreen}
               options={{
-                title: t('product.screenTitle'),
+                title: '', // this is dynamically set
               }}
             />
           </Stack.Navigator>

@@ -18,7 +18,7 @@ export const strings = {
   },
 
   product: {
-    screenTitle: '',
-    title: 'product detail',
+    entries: 'Available Entries..',
+    variationTitle: '{{title}} - {{price}}',
   },
 };
