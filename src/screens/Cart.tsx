@@ -68,7 +68,7 @@ export default function CartScreen(): ReactElement {
             mode="elevated"
             style={styles.button}
             onPress={() => {
-              console.log('ouch');
+              navigation.navigate('Checkout');
             }}>
             {t('cart.checkout')}
           </Button>

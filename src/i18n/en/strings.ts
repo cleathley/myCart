@@ -25,4 +25,9 @@ export const strings = {
     empty: 'You have no items in your cart.',
     checkout: 'Checkout and Pay',
   },
+
+  checkout: {
+    screenTitle: 'Checkout & Payment',
+    title: 'Please enter your payment information',
+  },
 };

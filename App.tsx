@@ -23,6 +23,7 @@ import './src/i18n/i18n';
 
 // import the screens
 import CartScreen from './src/screens/Cart';
+import CheckoutScreen from './src/screens/Checkout';
 import HomeScreen from './src/screens/Home';
 import ProductScreen from './src/screens/Product';
 import SpashScreen from './src/screens/Splash';
@@ -96,7 +97,14 @@ function App(): ReactElement {
                 name="Cart"
                 component={CartScreen}
                 options={{
-                  title: t('cart.screenTitle'), // this is dynamically set
+                  title: t('cart.screenTitle'),
+                }}
+              />
+              <Stack.Screen
+                name="Checkout"
+                component={CheckoutScreen}
+                options={{
+                  title: t('checkout.screenTitle'),
                 }}
               />
             </Stack.Navigator>
