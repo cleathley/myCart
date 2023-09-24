@@ -6,6 +6,8 @@ export type RootNavigationStackParamList = {
   Splash: undefined;
   Home: undefined;
   Product: {product: Product};
+  Cart: undefined;
+  Checkout: undefined;
 };
 
 // export the individual screen props (built from the above list)

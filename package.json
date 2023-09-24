@@ -22,6 +22,7 @@
     "upgrade:all": "yarn upgrade:react-native && yarn upgrade:modules"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.9.8",
     "deepmerge": "^4.3.1",
