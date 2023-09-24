@@ -5,16 +5,15 @@ import {useTranslation} from 'react-i18next';
 import {Dimensions, FlatList, Image, StyleSheet} from 'react-native';
 import {Card, IconButton, Text} from 'react-native-paper';
 import Carousel from 'react-native-reanimated-carousel';
+import {CartProduct} from '../@types/cart';
 import {
   ProductScreenRouteProp,
   RootNavigationStackParamList,
 } from '../@types/navigation';
 import {ProductVariation} from '../@types/product';
 import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
-import formatCurrency from '../support/formatCurrency';
-import log from '../support/logger';
 import {useCart} from '../context/Cart';
-import {CartItem, CartProduct} from '../@types/cart';
+import formatCurrency from '../support/formatCurrency';
 
 export default function ProductScreen(): ReactElement {
   const {t} = useTranslation();
@@ -118,12 +117,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     justifyContent: 'flex-start',
-  },
-  row2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
   },
   card: {
     width: '100%',

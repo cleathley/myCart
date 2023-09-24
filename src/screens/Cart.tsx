@@ -2,16 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {Button, Card, Text} from 'react-native-paper';
-import {RootNavigationStackParamList} from '../@types/navigation';
-import {Product} from '../@types/product';
-import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
-import products from '../constants/products';
-import formatCurrency from '../support/formatCurrency';
-import {useCart} from '../context/Cart';
+import {StyleSheet, View} from 'react-native';
+import {Button, DataTable, Text} from 'react-native-paper';
 import {CartItem} from '../@types/cart';
-import {DataTable} from 'react-native-paper';
+import {RootNavigationStackParamList} from '../@types/navigation';
+import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
+import {useCart} from '../context/Cart';
+import formatCurrency from '../support/formatCurrency';
 
 export default function CartScreen(): ReactElement {
   const {t} = useTranslation();
@@ -43,7 +40,7 @@ export default function CartScreen(): ReactElement {
 
           {cartState.cartItems.length ? (
             <>
-              {cartState.cartItems.map(item => (
+              {cartState.cartItems.map((item: CartItem) => (
                 <DataTable.Row key={item.id}>
                   <DataTable.Cell>{item.name}</DataTable.Cell>
                   <DataTable.Cell numeric>
@@ -81,13 +78,6 @@ export default function CartScreen(): ReactElement {
   );
 }
 
-/* <FlatList
-style={styles.faltList}
-data={cartState.cartItems}
-renderItem={({item}) => <Item data={item} />}
-keyExtractor={(item: Product) => item.id}
-/> */
-
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -102,12 +92,5 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '90%',
-  },
-  faltList: {
-    width: '100%',
-  },
-  card: {
-    marginVertical: 8,
-    marginHorizontal: 16,
   },
 });
