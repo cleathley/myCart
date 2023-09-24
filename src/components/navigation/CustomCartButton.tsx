@@ -10,21 +10,19 @@ import {RootNavigationStackParamList} from '../../@types/navigation';
 function CustomCartButton(): ReactElement {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootNavigationStackParamList>>();
-  const {cartState} = useCart();
+  const cart = useCart();
 
   return (
     <>
       <IconButton
-        icon={cartState.cartItems.length ? 'cart' : 'cart-outline'}
+        icon={cart.getCartCount() ? 'cart' : 'cart-outline'}
         size={24}
         onPress={() => {
           navigation.navigate('Cart');
         }}
       />
-      {cartState.cartItems.length ? (
-        <Badge style={styles.headerCartBadge}>
-          {cartState.cartItems.length}
-        </Badge>
+      {cart.getCartCount() ? (
+        <Badge style={styles.headerCartBadge}>{cart.getCartCount()}</Badge>
       ) : null}
     </>
   );

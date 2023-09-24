@@ -22,7 +22,7 @@ export default function CheckoutScreen(): ReactElement {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootNavigationStackParamList>>();
-  const {cartState, dispatch} = useCart();
+  const cart = useCart();
 
   const {
     control,
@@ -32,14 +32,7 @@ export default function CheckoutScreen(): ReactElement {
 
   const [disableSubmitButton, setDisableSubmitButton] = useState(false);
 
-  const getCartTotal = (): number => {
-    return cartState.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
-  };
-
-  const cartTotal = formatCurrency(getCartTotal());
+  const cartTotal = formatCurrency(cart.getCartTotal());
 
   const onSubmit: SubmitHandler<CheckoutForm> = async formData => {
     // dismiss any keyboard inputs left open
@@ -50,8 +43,8 @@ export default function CheckoutScreen(): ReactElement {
     const paymentSubmission = {
       creditCardName: formData.creditCardName,
       creditCardNumber: formData.creditCardNumber,
-      cartItems: cartState.cartItems,
-      paymentAmount: getCartTotal(),
+      cartItems: cart.cartState.cartItems,
+      paymentAmount: cart.getCartTotal(),
     };
 
     axios
@@ -76,7 +69,7 @@ export default function CheckoutScreen(): ReactElement {
           );
 
           // clear the cart and return back to the homescreen (top of the stack)
-          dispatch({type: 'CLEAR_CART'});
+          cart.clearCart();
           navigation.popToTop();
         }
       })

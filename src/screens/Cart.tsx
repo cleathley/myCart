@@ -14,16 +14,9 @@ export default function CartScreen(): ReactElement {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootNavigationStackParamList>>();
-  const {cartState} = useCart();
+  const cart = useCart();
 
-  const getCartTotal = (): number => {
-    return cartState.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
-  };
-
-  let cartTotal = formatCurrency(getCartTotal());
+  let cartTotal = formatCurrency(cart.getCartTotal());
 
   return (
     <CustomSafeAreaView style={styles.container}>
@@ -38,9 +31,9 @@ export default function CartScreen(): ReactElement {
             <DataTable.Title numeric>Price</DataTable.Title>
           </DataTable.Header>
 
-          {cartState.cartItems.length ? (
+          {cart.cartState.cartItems.length ? (
             <>
-              {cartState.cartItems.map((item: CartItem) => (
+              {cart.cartState.cartItems.map((item: CartItem) => (
                 <DataTable.Row key={item.id}>
                   <DataTable.Cell>{item.name}</DataTable.Cell>
                   <DataTable.Cell numeric>
@@ -61,7 +54,7 @@ export default function CartScreen(): ReactElement {
         </DataTable>
       </View>
 
-      {cartState.cartItems.length ? (
+      {cart.cartState.cartItems.length ? (
         <View style={styles.row}>
           <Button
             icon="cart-arrow-right"

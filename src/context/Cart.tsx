@@ -1,9 +1,9 @@
 // CartContext.tsx
-import React, {createContext, useContext, useReducer, ReactNode} from 'react';
-import log from '../support/logger';
+import React, {createContext, useContext, useReducer} from 'react';
 import {
   CartAction,
   CartContextType,
+  CartProduct,
   CartProviderProps,
   CartState,
 } from '../@types/cart';
@@ -52,7 +52,6 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
     // reset the cart
     case 'CLEAR_CART':
-      log.info('CLEAR_CART');
       return {...state, cartItems: []};
 
     default:
@@ -60,16 +59,52 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-// Create the Provider so we can wrap the dom and allow any element to access the card
+// Create the Provider so we can wrap the dom and allow any element to access the
+// cart and provide some helper funtions
 //
 const CartProvider = ({children}: CartProviderProps) => {
   const [cartState, dispatch] = useReducer(cartReducer, {cartItems: []});
 
+  const addToCart = (item: CartProduct): void => {
+    dispatch({type: 'ADD_TO_CART', payload: item});
+  };
+
+  const clearCart = (): void => {
+    dispatch({type: 'CLEAR_CART'});
+  };
+
+  const getCartCount = (): number => {
+    return cartState.cartItems.length;
+  };
+
+  const getCartTotal = (): number => {
+    return cartState.cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0,
+    );
+  };
+
+  const isItemInCart = (item: CartProduct): boolean => {
+    const isItemInCart = cartState.cartItems.find(
+      cartItem => cartItem.id === item.id,
+    );
+    return isItemInCart ? true : false;
+  };
+
   return (
-    <CartContext.Provider value={{cartState, dispatch}}>
+    <CartContext.Provider
+      value={{
+        cartState,
+        dispatch,
+        addToCart,
+        clearCart,
+        isItemInCart,
+        getCartCount,
+        getCartTotal,
+      }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-export {useCart, CartProvider};
+export {CartProvider, useCart};

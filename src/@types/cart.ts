@@ -18,8 +18,15 @@ export type CartAction =
   | {type: 'CLEAR_CART'};
 
 export type CartContextType = {
+  // from the reducer
   cartState: CartState;
   dispatch: React.Dispatch<CartAction>;
+  // methods of the context provider
+  addToCart(item: CartProduct): void;
+  clearCart(): void;
+  isItemInCart(item: CartProduct): boolean;
+  getCartCount(): number;
+  getCartTotal(): number;
 };
 
 export type CartProviderProps = {

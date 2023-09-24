@@ -20,7 +20,7 @@ export default function ProductScreen(): ReactElement {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootNavigationStackParamList>>();
   const route = useRoute<ProductScreenRouteProp>();
-  const {cartState, dispatch} = useCart();
+  const cart = useCart();
 
   // get the product passed into from the navigation params
   const {product} = route.params;
@@ -35,18 +35,6 @@ export default function ProductScreen(): ReactElement {
     });
   }, [navigation, product]);
 
-  // call the ADD_TO_CATCH dispatch method to add the item to the cart
-  const addToCart = (item: CartProduct) => {
-    dispatch({type: 'ADD_TO_CART', payload: item});
-  };
-
-  const isItemInCart = (item: CartProduct): boolean => {
-    const isItemInCart = cartState.cartItems.find(
-      cartItem => cartItem.id === item.id,
-    );
-    return isItemInCart ? true : false;
-  };
-
   const Item = ({data}: {data: ProductVariation}) => (
     <Card
       mode="contained"
@@ -60,7 +48,10 @@ export default function ProductScreen(): ReactElement {
           }),
           price: data.price,
         };
-        addToCart(cartItem);
+        // only allow this item to be added once.
+        if (false === cart.isItemInCart(cartItem)) {
+          cart.addToCart(cartItem);
+        }
       }}>
       <Card.Title
         title={t('product.variationTitle', {
@@ -71,7 +62,7 @@ export default function ProductScreen(): ReactElement {
         right={props => (
           <IconButton
             {...props}
-            icon={isItemInCart(data) ? 'check' : 'cart-plus'}
+            icon={cart.isItemInCart(data) ? 'check' : 'cart-plus'}
           />
         )}
       />
