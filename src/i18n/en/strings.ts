@@ -29,5 +29,15 @@ export const strings = {
   checkout: {
     screenTitle: 'Checkout & Payment',
     title: 'Please enter your payment information',
+    creditCardName: 'Name on Credit Card',
+    creditCardNumber: 'Credit Card Number',
+    submitButton: 'Process Payment of {{total}}',
+
+    validationCreditCardName: 'Please enter in the name on the credit card.',
+    validationCreditCardNumber: 'Please enter in your credit card number.',
+
+    successDialog:
+      'Your payment of {{total}}\nwas successfully processed.\n\nYour receipt is {{receipt}}.',
+    failedDialog: 'There was a problem processing your payment.',
   },
 };
