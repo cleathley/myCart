@@ -69,6 +69,10 @@ const CartProvider = ({children}: CartProviderProps) => {
     dispatch({type: 'ADD_TO_CART', payload: item});
   };
 
+  const removeFromCart = (item: CartProduct): void => {
+    dispatch({type: 'REMOVE_FROM_CART', payload: item});
+  };
+
   const clearCart = (): void => {
     dispatch({type: 'CLEAR_CART'});
   };
@@ -97,6 +101,7 @@ const CartProvider = ({children}: CartProviderProps) => {
         cartState,
         dispatch,
         addToCart,
+        removeFromCart,
         clearCart,
         isItemInCart,
         getCartCount,

@@ -23,6 +23,7 @@ export type CartContextType = {
   dispatch: React.Dispatch<CartAction>;
   // methods of the context provider
   addToCart(item: CartProduct): void;
+  removeFromCart(item: CartProduct): void;
   clearCart(): void;
   isItemInCart(item: CartProduct): boolean;
   getCartCount(): number;

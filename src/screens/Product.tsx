@@ -48,9 +48,12 @@ export default function ProductScreen(): ReactElement {
           }),
           price: data.price,
         };
+        
         // only allow this item to be added once.
         if (false === cart.isItemInCart(cartItem)) {
           cart.addToCart(cartItem);
+        } else {
+          cart.removeFromCart(cartItem);
         }
       }}>
       <Card.Title
