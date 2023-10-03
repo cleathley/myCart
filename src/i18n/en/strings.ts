@@ -5,6 +5,10 @@ export const strings = {
     loading: 'Loading...',
   },
 
+  alert: {
+    OK: 'OK',
+  },
+
   home: {
     screenTitle: 'Ninja Lottery',
     title: 'Play your favourate game',
@@ -36,6 +40,7 @@ export const strings = {
     validationCreditCardName: 'Please enter in the name on the credit card.',
     validationCreditCardNumber: 'Please enter in your credit card number.',
 
+    successDialogTitle: 'Payment Successful',
     successDialog:
       'Your payment of {{total}}\nwas successfully processed.\n\nYour receipt is {{receipt}}.',
     failedDialog: 'There was a problem processing your payment.',

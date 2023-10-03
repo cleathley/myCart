@@ -4,11 +4,12 @@ import axios from 'axios';
 import React, {ReactElement, useState} from 'react';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {Alert, Keyboard, StyleSheet, View} from 'react-native';
+import {Keyboard, StyleSheet, View} from 'react-native';
 import {Button, HelperText, Text, TextInput} from 'react-native-paper';
 import ENV from '../../.env';
 import {RootNavigationStackParamList} from '../@types/navigation';
 import {CustomSafeAreaView} from '../components/CustomSafeAreaView';
+import CustomOkDialog from '../components/dialog/CustomOkDialog';
 import {useCart} from '../context/Cart';
 import formatCurrency from '../support/formatCurrency';
 import log from '../support/logger';
@@ -31,6 +32,11 @@ export default function CheckoutScreen(): ReactElement {
   } = useForm<CheckoutForm>();
 
   const [disableSubmitButton, setDisableSubmitButton] = useState(false);
+
+  const [showErrorDialog, setShowErrorDialog] = React.useState(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] =
+    React.useState(false);
+  const [dialogContent, setDialogContent] = React.useState('');
 
   const cartTotal = formatCurrency(cart.getCartTotal());
 
@@ -58,19 +64,16 @@ export default function CheckoutScreen(): ReactElement {
       })
       .then(response => {
         if (response.data.success !== true) {
-          Alert.alert(t('checkout.failedDialog'));
+          setDialogContent(t('checkout.failedDialog'));
+          setShowErrorDialog(true);
         } else {
-          Alert.alert(
-            '',
+          setDialogContent(
             t('checkout.successDialog', {
               total: cartTotal,
               receipt: response.data.receiptNumber,
             }),
           );
-
-          // clear the cart and return back to the homescreen (top of the stack)
-          cart.clearCart();
-          navigation.popToTop();
+          setShowConfirmationDialog(true);
         }
       })
       .catch(error => {
@@ -153,6 +156,22 @@ export default function CheckoutScreen(): ReactElement {
         onPress={handleSubmit(onSubmit, Keyboard.dismiss)}>
         {t('checkout.submitButton', {total: cartTotal})}
       </Button>
+
+      <CustomOkDialog
+        visible={showErrorDialog}
+        content={dialogContent}
+        onDismiss={() => setShowErrorDialog(false)}
+      />
+      <CustomOkDialog
+        visible={showConfirmationDialog}
+        title={t('checkout.successDialogTitle')}
+        content={dialogContent}
+        onDismiss={() => {
+          // clear the cart and return back to the homescreen (top of the stack)
+          cart.clearCart();
+          navigation.popToTop();
+        }}
+      />
     </CustomSafeAreaView>
   );
 }
