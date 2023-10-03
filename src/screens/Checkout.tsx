@@ -55,13 +55,7 @@ export default function CheckoutScreen(): ReactElement {
 
     axios
       // build up the post request and fire it off
-      .post(ENV.API_SERVICE_URL + ENV.API_ENDPOINT_PAYMENT, paymentSubmission, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        timeout: ENV.SERVER_TIMEOUT,
-      })
+      .post(ENV.API_SERVICE_URL + ENV.API_ENDPOINT_PAYMENT, paymentSubmission)
       .then(response => {
         if (response.data.success !== true) {
           setDialogContent(t('checkout.failedDialog'));

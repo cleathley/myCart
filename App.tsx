@@ -5,6 +5,7 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import axios from 'axios';
 import merge from 'deepmerge';
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -16,6 +17,7 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import ENV from './.env';
 import {RootNavigationStackParamList} from './src/@types/navigation';
 import CustomCartButton from './src/components/navigation/CustomCartButton';
 import {CartProvider} from './src/context/Cart';
@@ -38,6 +40,11 @@ const availableThemes = {
   combinedLightTheme: merge(MaterialLightTheme, LightTheme),
   combinedDarkTheme: merge(MaterialDarkTheme, DarkTheme),
 };
+
+// set the defaults for axios (as we are working with json)
+axios.defaults.headers.common.Accept = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.timeout = ENV.SERVER_TIMEOUT;
 
 const Stack = createNativeStackNavigator();
 
